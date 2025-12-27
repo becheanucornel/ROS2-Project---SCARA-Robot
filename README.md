@@ -1,11 +1,10 @@
 # ROS2 Jazzy - SCARA Robot Project
 
-This is one of my personal project that aims to highlight the use of ROS2 Jazzy for robot programming.
+This is one of my personal projects that aims to highlight the use of ROS2 Jazzy for robot programming.
+I decided to start my ROS2 journey a while ago, and after developing a couple of simple projects, I wanted to make something more challenging and oriented towards executing a task. To also make use of my robot kinematics knowledge, I decided to program a SCARA robot using ROS2.
 
 
 ## System Architecture
-
-###
 
 #### 1. `robot_bringup`
 Main package for launching and configuring the robot system.
@@ -78,8 +77,8 @@ This will start:
 
 ### Waypoint Format (JSON)
 
-The file which holds the waypoints the robot has to move to lives inside: "~/src/robot_bringup/config/".
-Here the user can add, or modify the waypoints as he likes, by using the following structure:
+The file which holds the waypoints the robot has to move to is located inside: "~/src/robot_bringup/config/".
+Here the user can add or modify the waypoints as they like, using the following structure:
 
 ```json
 {
