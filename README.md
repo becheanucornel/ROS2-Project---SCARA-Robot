@@ -72,8 +72,8 @@ This will start:
 
 ### Waypoint Format (JSON)
 
-The file which holds the waypoints the robot has to move to lives inside: ~/src/robot_bringup/config.
-Here the use can add, or modify the waypoints as he likes, by using the following structure:
+The file which holds the waypoints the robot has to move to lives inside: "~/src/robot_bringup/config/".
+Here the user can add, or modify the waypoints as he likes, by using the following structure:
 
 ```json
 {
