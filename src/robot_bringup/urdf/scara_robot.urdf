@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<robot name="scara_robot">
+
+  <material name="white_paint">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <material name="orange_paint">
+    <color rgba="1 0.42 0 1"/>
+  </material>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.2" radius="0.15"/>
+      </geometry>
+      <material name="white_paint"/>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    </visual>
+    <visual>
+      <geometry>
+        <cylinder length="0.02" radius="0.2"/>
+      </geometry>
+      <material name="white_paint"/>
+      <origin xyz="0 0 0.01" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="shoulder_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_node"/>
+    <origin xyz="0 0 0.3" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="10.0" velocity="1.0"/>
+  </joint>
+
+  <link name="shoulder_node">
+    <visual>
+      <geometry>
+        <sphere radius="0.1"/>
+      </geometry>
+      <material name="orange_paint"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="shoulder_connection" type="fixed">
+    <parent link="shoulder_node"/>
+    <child link="link_1_arm"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="link_1_arm">
+    <visual>
+      <geometry>
+        <cylinder length="0.5" radius="0.07"/>
+      </geometry>
+      <material name="white_paint"/>
+      <origin xyz="0.25 0 0" rpy="0 1.5708 0"/>
+    </visual>
+  </link>
+
+  <joint name="elbow_joint" type="revolute">
+    <parent link="link_1_arm"/>
+    <child link="elbow_node"/>
+    <origin xyz="0.5 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="10.0" velocity="1.0"/>
+  </joint>
+
+  <link name="elbow_node">
+    <visual>
+      <geometry>
+        <sphere radius="0.08"/>
+      </geometry>
+      <material name="orange_paint"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="elbow_connection" type="fixed">
+    <parent link="elbow_node"/>
+    <child link="link_2_arm"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="link_2_arm">
+    <visual>
+      <geometry>
+        <cylinder length="0.4" radius="0.06"/>
+      </geometry>
+      <material name="white_paint"/>
+      <origin xyz="0.2 0 0" rpy="0 1.5708 0"/>
+    </visual>
+  </link>
+
+  <joint name="quill_joint" type="prismatic">
+    <parent link="link_2_arm"/>
+    <child link="quill_link"/>
+    <origin xyz="0.4 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0.0" upper="0.5" effort="10.0" velocity="1.0"/>
+  </joint>
+
+  <link name="quill_link">
+    <visual>
+      <geometry>
+        <box size="0.05 0.05 0.4"/>
+      </geometry>
+      <material name="orange_paint"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="theta_joint" type="revolute">
+    <parent link="quill_link"/>
+    <child link="tool_flange"/>
+    <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-6.28" upper="6.28" effort="10.0" velocity="1.0"/>
+  </joint>
+
+  <link name="tool_flange">
+    <visual>
+      <geometry>
+        <sphere radius="0.06"/>
+      </geometry>
+      <material name="orange_paint"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+    <visual>
+      <geometry>
+         <box size="0.01 0.01 0.05"/>
+      </geometry>
+      <material name="white_paint"/>
+      <origin xyz="0 0 -0.05" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="gripper_base_joint" type="fixed">
+    <parent link="tool_flange"/>
+    <child link="gripper_base"/>
+    <origin xyz="0 0 -0.07" rpy="0 0 0"/>
+  </joint>
+
+  <link name="gripper_base">
+    <visual>
+      <geometry>
+        <box size="0.14 0.03 0.02"/>
+      </geometry>
+      <material name="white_paint"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="left_finger_joint" type="prismatic">
+    <parent link="gripper_base"/>
+    <child link="left_finger"/>
+    <origin xyz="-0.06 0 -0.035" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0.0" upper="0.03" effort="10.0" velocity="0.5"/>
+  </joint>
+
+  <link name="left_finger">
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.05"/>
+      </geometry>
+      <material name="orange_paint"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+  <joint name="right_finger_joint" type="prismatic">
+    <parent link="gripper_base"/>
+    <child link="right_finger"/>
+    <origin xyz="0.06 0 -0.035" rpy="0 0 0"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="0.0" upper="0.03" effort="10.0" velocity="0.5"/>
+  </joint>
+
+  <link name="right_finger">
+    <visual>
+      <geometry>
+        <box size="0.02 0.02 0.05"/>
+      </geometry>
+      <material name="orange_paint"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </visual>
+  </link>
+
+</robot>

@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1, 
+    "x": 0.9, "y": 0.0, "z": 0.2, "yaw": 0.0, 
+    "gripper": 0.0, 
+    "note": "HOME POSITION - Start High"
+  },
+  {
+    "id": 2, 
+    "x": 0.5, "y": -0.5, "z": 0.2, "yaw": -1.57, 
+    "gripper": 0.0, 
+    "note": "APPROACH PICK 1"
+  },
+  {
+    "id": 3, 
+    "x": 0.5, "y": -0.5, "z": 0.05, "yaw": -1.57, 
+    "gripper": 0.0, 
+    "note": "DESCEND TO PICK 1"
+  },
+  {
+    "id": 4, 
+    "x": 0.5, "y": -0.5, "z": 0.05, "yaw": -1.57, 
+    "gripper": 1.0, 
+    "note": "CLOSE GRIPPER"
+  },
+  {
+    "id": 5, 
+    "x": 0.5, "y": -0.5, "z": 0.2, "yaw": -1.57, 
+    "gripper": 1.0, 
+    "note": "LIFT OBJECT 1"
+  },
+  {
+    "id": 6, 
+    "x": 0.5, "y": 0.5, "z": 0.2, "yaw": 1.57, 
+    "gripper": 1.0, 
+    "note": "MOVE TO PLACE 1"
+  },
+  {
+    "id": 7, 
+    "x": 0.5, "y": 0.5, "z": 0.05, "yaw": 1.57, 
+    "gripper": 1.0, 
+    "note": "DESCEND TO PLACE 1"
+  },
+  {
+    "id": 8, 
+    "x": 0.5, "y": 0.5, "z": 0.05, "yaw": 1.57, 
+    "gripper": 0.0, 
+    "note": "OPEN GRIPPER"
+  },
+  {
+    "id": 9, 
+    "x": 0.5, "y": 0.5, "z": 0.2, "yaw": 1.57, 
+    "gripper": 0.0, 
+    "note": "LIFT CLEAR"
+  },
+  {
+    "id": 10, 
+    "x": 0.6, "y": 0.0, "z": 0.2, "yaw": 0.0, 
+    "gripper": 0.0, 
+    "note": "APPROACH PICK 2"
+  },
+  {
+    "id": 11, 
+    "x": 0.6, "y": 0.0, "z": 0.05, "yaw": 0.0, 
+    "gripper": 0.0, 
+    "note": "DESCEND TO PICK 2"
+  },
+  {
+    "id": 12, 
+    "x": 0.6, "y": 0.0, "z": 0.05, "yaw": 0.0, 
+    "gripper": 1.0, 
+    "note": "CLOSE GRIPPER"
+  },
+  {
+    "id": 13, 
+    "x": 0.6, "y": 0.0, "z": 0.2, "yaw": 0.0, 
+    "gripper": 1.0, 
+    "note": "LIFT OBJECT 2"
+  },
+  {
+    "id": 14, 
+    "x": 0.5, "y": -0.5, "z": 0.2, "yaw": -1.57, 
+    "gripper": 1.0, 
+    "note": "MOVE TO PLACE 2"
+  },
+  {
+    "id": 15, 
+    "x": 0.5, "y": -0.5, "z": 0.05, "yaw": -1.57, 
+    "gripper": 0.0, 
+    "note": "RELEASE & FINISH"
+  }
+]
