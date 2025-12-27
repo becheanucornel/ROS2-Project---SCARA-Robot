@@ -67,9 +67,11 @@ This will start:
 - RViz2 visualization
 - TF2 static transform broadcaster
 
-![Visualisation](docs/SCARA.gif)
+<p align="center">
+  <img src="docs/SCARA.gif" alt="SCARA Robot Demo" width="600"/>
+</p>
 
-*SCARA robot performing pick-and-place operations in RViz2*
+<p align="center"><em>SCARA robot performing pick-and-place operations in RViz2</em></p>
 
 
 ## Waypoint System
