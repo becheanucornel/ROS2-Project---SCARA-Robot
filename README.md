@@ -67,7 +67,7 @@ This will start:
 - RViz2 visualization
 - TF2 static transform broadcaster
 
-![Visualisation](docs/demo.gif)
+![Visualisation](docs/SCARA.gif)
 
 *SCARA robot performing pick-and-place operations in RViz2*
 
