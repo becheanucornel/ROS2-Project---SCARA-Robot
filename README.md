@@ -1,5 +1,8 @@
 # ROS2 Jazzy - SCARA Robot Project
 
+![ROS2 Jazzy](https://img.shields.io/badge/ROS2-Jazzy-green?style=flat-square&logo=ros)
+![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)
+
 This is one of my personal projects that aims to highlight the use of ROS2 Jazzy for robot programming.
 I decided to start my ROS2 journey a while ago, and after developing a couple of simple projects, I wanted to make something more challenging and oriented towards executing a task. To also make use of my robot kinematics knowledge, I decided to program a SCARA robot using ROS2.
 
