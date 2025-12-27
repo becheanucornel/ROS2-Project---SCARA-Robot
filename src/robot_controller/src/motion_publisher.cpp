@@ -14,8 +14,9 @@ using json = nlohmann::json;
 using namespace std::chrono_literals;
 
 struct Waypoint {
+    // Initialising variables
     geometry_msgs::msg::PoseStamped pose;
-    double gripper_val; // 0.0 = Open, 1.0 = Closed
+    double gripper_val;
 };
 
 class MotionPublisher : public rclcpp::Node
@@ -23,9 +24,10 @@ class MotionPublisher : public rclcpp::Node
 public:
     MotionPublisher() : Node("motion_publisher_node")
     {
+        // Defining node parameters
         this->declare_parameter("waypoint_file", "");
 
-        // Only one publisher: Send everything to the Driver
+        // Node publisher
         arm_publisher_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("/scara_commands", 10);
 
         load_positions_from_file();
@@ -93,10 +95,6 @@ private:
 
         Waypoint wp = mission_queue_[current_step_];
         wp.pose.header.stamp = this->get_clock()->now();
-
-        // --- THE HACK: Pack Gripper Command into orientation.x ---
-        // Since SCARA doesn't rotate around X, this field is free.
-        // The Driver will read this to know if it should close the gripper.
         wp.pose.pose.orientation.x = wp.gripper_val;
 
         arm_publisher_->publish(wp.pose);

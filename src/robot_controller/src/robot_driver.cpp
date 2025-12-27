@@ -12,14 +12,12 @@
 #include "tf2/LinearMath/Quaternion.h"
 #include "tf2/LinearMath/Matrix3x3.h"
 
-// Robot Dimensions
+// Robot dimensions and velocity parameters
 const double L1 = 0.5;
 const double L2 = 0.4;
-
-// Speed Settings
 const double MAX_SPEED_RAD = 1.0;
 const double MAX_SPEED_LIN = 0.5;
-const double MAX_SPEED_GRIPPER = 0.05; // 5cm/s finger speed
+const double MAX_SPEED_GRIPPER = 0.05;
 const double TIMER_PERIOD = 0.05; 
 
 class RobotDriver : public rclcpp::Node
@@ -27,10 +25,11 @@ class RobotDriver : public rclcpp::Node
 public:
     RobotDriver() : Node("robot_driver_node")
     {
-        // Subscribe to commands (Pose + Gripper info inside)
+        // Node subscriber
         command_subscription_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
             "/scara_commands", 10, std::bind(&RobotDriver::command_callback, this, std::placeholders::_1));
 
+        // Node publisher
         joint_publisher_ = this->create_publisher<sensor_msgs::msg::JointState>("joint_states", 10);
         broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
@@ -38,7 +37,7 @@ public:
             std::chrono::milliseconds(static_cast<int>(TIMER_PERIOD * 1000)),
             std::bind(&RobotDriver::timer_callback, this));
 
-        // Initialize Joints (0-3: Arm, 4: Gripper)
+        // Initialize Joints
         current_joints_ = {0.0, 0.0, 0.0, 0.0, 0.0};
         target_joints_  = {0.0, 0.0, 0.0, 0.0, 0.0};
 
@@ -58,12 +57,8 @@ private:
         target_pose.x = msg->pose.position.x;
         target_pose.y = msg->pose.position.y;
         target_pose.z = msg->pose.position.z;
-
-        // --- EXTRACT GRIPPER COMMAND ---
-        // Read the value hidden in orientation.x (0.0 or 1.0)
         target_pose.gripper_cmd = msg->pose.orientation.x; 
 
-        // Extract Yaw
         tf2::Quaternion q(msg->pose.orientation.x, msg->pose.orientation.y, msg->pose.orientation.z, msg->pose.orientation.w);
         double r, p, yaw;
         tf2::Matrix3x3(q).getRPY(r, p, yaw);
@@ -80,18 +75,16 @@ private:
 
     void timer_callback()
     {
-        // 1. Interpolate Arm Joints
+        // Interpolation
         move_joint(current_joints_.shoulder, target_joints_.shoulder, MAX_SPEED_RAD);
         move_joint(current_joints_.elbow,    target_joints_.elbow,    MAX_SPEED_RAD);
         move_joint(current_joints_.quill,    target_joints_.quill,    MAX_SPEED_LIN);
         move_joint(current_joints_.theta,    target_joints_.theta,    MAX_SPEED_RAD);
         
-        // 2. Interpolate Gripper (Smoothly open/close)
-        // Convert 0.0/1.0 command to physical meters (0.03m max travel)
         double gripper_target_m = target_joints_.gripper * 0.03; 
         move_joint(current_joints_.gripper, gripper_target_m, MAX_SPEED_GRIPPER);
 
-        // 3. Publish Everything
+        // Publishing to topics
         CartesianPose visual_pose = solve_fk(current_joints_);
         publish_state(current_joints_, visual_pose);
     }
@@ -110,7 +103,7 @@ private:
 
     bool solve_ik(const CartesianPose& target, JointConfig& joints) {
         joints.quill = target.z;
-        joints.gripper = target.gripper_cmd; // Pass command directly to joint config
+        joints.gripper = target.gripper_cmd;
 
         double r_sq = target.x * target.x + target.y * target.y;
         double C2 = (r_sq - L1*L1 - L2*L2) / (2 * L1 * L2);
@@ -136,16 +129,12 @@ private:
     void publish_state(const JointConfig& joints, const CartesianPose& pose) {
         sensor_msgs::msg::JointState js;
         js.header.stamp = this->get_clock()->now();
-        
-        // PUBLISH ALL JOINTS (Arm + 2 Fingers)
         js.name = {"shoulder_joint", "elbow_joint", "quill_joint", "theta_joint", "left_finger_joint", "right_finger_joint"};
-        
-        // Use the interpolated gripper value for both fingers
+
         js.position = {joints.shoulder, joints.elbow, joints.quill, joints.theta, joints.gripper, joints.gripper};
         
         joint_publisher_->publish(js);
 
-        // Publish Transform
         geometry_msgs::msg::TransformStamped ts;
         ts.header.stamp = this->get_clock()->now();
         ts.header.frame_id = "odom";
